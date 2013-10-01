@@ -1,0 +1,15 @@
+{% extends "_base.html" %}
+
+{% block title %}PersonalAPI{% endblock title %}
+
+{% block content %}
+    <div class="container">
+        <div class="jumbotron">
+            {% if current_user %}
+            <h1>Hello {{current_user.name}}!</h1>
+            <p>{{current_user}}</p>
+            {% else %}
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
