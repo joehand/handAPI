@@ -4,6 +4,7 @@ import os
 from flask import Flask, render_template
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.bootstrap import Bootstrap
+from celery import Celery
 
 from .config import Config, DevelopmentConfig
 
@@ -43,6 +44,8 @@ def create_app(config=None, app_name=None, blueprints=None):
     configure_logging(app)
     configure_template_filters(app)
     configure_error_handlers(app)
+
+    print app.url_map
 
     return app
 

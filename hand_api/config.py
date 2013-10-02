@@ -8,7 +8,7 @@ class Config(object):
     # Get app root path
     PROJECT_ROOT = os.path.abspath(os.path.dirname(os.path.dirname(__file__)))
 
-    DEBUG = False
+    DEBUG = True
 
     SECRET_KEY = 'this_is_so_secret' #used for development, reset in prod
 
@@ -20,31 +20,18 @@ class Config(object):
     MONGODB_HOST = 'localhost'
     MONGODB_PORT = 27017
 
-    #FitBit API Info
-    FIT_KEY = '3188c43331f644b092666ae08a2243a1'
-    FIT_SECRET = 'cb4a576caad444918fd98548b6589e0a'
-
-    #Twitter API Info
-    TWITTER_KEY = 'gQpFjjs1SBGmeNgzTv90zw'
-    TWITTER_SECRET = 'oZrFSZl1QIuidwTFVAp4c4tNrLdA1xvtQ16ixaI'
-
-    #Readmill API Info
-    READMILL_KEY = 'f630c55f8035847b01f1a8bedde5f1cb'
-    READMILL_SECRET = '287c32ddbf35cde5931e85603a7745ec'
-
-    #GITHUB 
-    GITHUB_KEY = '99222755646dcc27b4e0'
-    GITHUB_SECRET = '7ce8de9cdf25b3d271b787b5b7a19ec7ad8fcb41'
-
+    CELERY_BROKER_URL='redis://localhost:6379',
+    CELERY_RESULT_BACKEND='redis://localhost:6379'
 
 class ProductionConfig(Config):
+
+    DEBUG = False
 
     #MongoDB Info
     MONGODB_DB = 'app17531201'
     MONGODB_HOST = os.environ.get('MONGOHQ_URL')
 
 class DevelopmentConfig(Config):
-    DEBUG = True
 
     DEBUG_TB_INTERCEPT_REDIRECTS = False
     DEBUG_TB_PANELS = (
