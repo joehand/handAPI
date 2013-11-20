@@ -1,6 +1,6 @@
 from flask import (Blueprint, render_template, jsonify, request)
 
-from ..tasks import add
+#from ..tasks import add
 
 frontend = Blueprint('frontend', __name__, url_prefix='')
 
@@ -8,6 +8,7 @@ frontend = Blueprint('frontend', __name__, url_prefix='')
 def index():
     return render_template('index.html')
 
+"""
 @frontend.route('/test')
 def hello_world(x=16, y=16):
     x = int(request.args.get("x", x))
@@ -22,3 +23,4 @@ def hello_world(x=16, y=16):
 def show_result(task_id):
     retval = add.AsyncResult(task_id).get(timeout=1.0)
     return repr(retval)
+"""

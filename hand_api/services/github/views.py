@@ -10,12 +10,12 @@ github = Blueprint('github', __name__, url_prefix='/github')
 githubAPI = GitHubAPI().oauth_app
 
 @githubAPI.tokengetter
-def get_github_oauth_token():
+def get_token():
     return current_user.get('github', None)['access_token']
 
 @github.route('/')
 @login_required
-def github_login():
+def login():
     if current_user.get('github', None):
         return redirect(url_for('frontend.index'))
     return githubAPI.authorize(callback=url_for('.authorized', _external=True))

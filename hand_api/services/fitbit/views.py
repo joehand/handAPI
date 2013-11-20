@@ -10,16 +10,16 @@ fitbit = Blueprint('fitbit', __name__, url_prefix='/fitbit')
 fitbitAPI = FitbitAPI().oauth_app
 
 @fitbitAPI.tokengetter
-def get_fitbit_app_token(token=None):
+def get_token(token=None):
     return current_user.get('fitbit', None)['oauth_token']
 
 
 @fitbit.route('/')
 @login_required
-def fitbit_login():
+def login():
     if current_user.get('fitbit', None):
         return redirect(url_for('frontend.index'))
-    return fitbitAPI.authorize(callback=url_for('.authorized'))
+    return fitbitAPI.authorize(callback=url_for('.authorized', _external=True))
 
 
 @fitbit.route('/authorized')

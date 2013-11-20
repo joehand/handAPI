@@ -4,13 +4,12 @@ import os
 from flask import Flask, render_template
 from flask.ext.security import MongoEngineUserDatastore
 from flask.ext.bootstrap import Bootstrap
-from celery import Celery
 
 from .config import Config, DevelopmentConfig
 
 from .user import user, User, Role
 from .frontend import frontend
-from .services import twitter, lift, fitbit, github, readmill
+from .services import twitter, fitbit, github, readmill, foursquare
 
 from .extensions import db, mail, security
 
@@ -21,10 +20,10 @@ DEFAULT_BLUEPRINTS = (
     frontend,
     user,
     twitter,
-    lift,
     fitbit,
     github,
     readmill,
+    foursquare,
     #admin,
 )
 

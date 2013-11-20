@@ -10,15 +10,15 @@ twitter = Blueprint('twitter', __name__, url_prefix='/twitter')
 twitterAPI = TwitterAPI().oauth_app
 
 @twitterAPI.tokengetter
-def get_twitter_api_token(token=None):
+def get_token(token=None):
     return current_user.get('twitter', None)['oauth_token']
 
 @twitter.route('/')
 @login_required
-def twitter_login():
+def login():
     if current_user.get('twitter', None):
         return redirect(url_for('frontend.index'))
-    return twitterAPI.authorize(callback=url_for('.authorized'))
+    return twitterAPI.authorize(callback=url_for('.authorized', _external=True))
 
 @twitter.route('/authorized')
 @twitterAPI.authorized_handler

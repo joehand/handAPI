@@ -12,13 +12,13 @@ readmillAPI = ReadmillAPI().oauth_app
 
 
 @readmillAPI.tokengetter
-def get_readmill_app_token(token=None):
+def get_token(token=None):
     return current_user.get('readmill')['access_token']
 
 
 @readmill.route('/')
 @login_required
-def readmill_login():
+def login():
     if current_user.get('readmill', None):
         return redirect(url_for('frontend.index'))
     return readmillAPI.authorize(callback=url_for('.authorized', _external=True))

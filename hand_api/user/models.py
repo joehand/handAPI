@@ -18,6 +18,7 @@ class User(db.DynamicDocument, UserMixin):
     readmill = db.DictField()
     github= db.DictField()
     fitbit = db.DictField()
+    foursquare = db.DictField()
 
     def to_dict(self):
         return mongo_to_dict(self)
