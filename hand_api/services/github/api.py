@@ -5,7 +5,9 @@ from ...extensions import oauth
 class GitHubAPI():
     # Setup
     # ----------------------------
-    oauth_app = oauth.remote_app('github',
+    oauth_type = 'oauth2'
+    oauth_app = oauth.remote_app(
+        'github',
         consumer_key=Github_Key['key'],
         consumer_secret=Github_Key['secret'],
         request_token_params={'scope': 'user:email'},

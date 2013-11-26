@@ -4,6 +4,8 @@ from ...extensions import oauth
 class FoursquareAPI():
     # Setup
     # ----------------------------
+    oauth_type = 'oauth2'
+    
     oauth_app = oauth.remote_app(
         'foursquare',
         base_url='https://api.foursquare.com/v2/',

@@ -13,7 +13,7 @@ class Config(object):
     SECRET_KEY = 'this_is_so_secret' #used for development, reset in prod
 
     # Bootstrap Config (https://github.com/mbr/flask-bootstrap#configuration-options)
-    BOOTSTRAP_USE_CDN = True
+    BOOTSTRAP_SERVE_LOCAL = True
     
     # MongoDB Config
     MONGODB_DB = 'hand_api'
