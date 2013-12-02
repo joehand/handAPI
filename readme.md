@@ -31,8 +31,8 @@ Have a functioning site that connects to a few APIs, store & visualize that info
 
 ### Steps
 
-1. Create a general User blueprint & model (done)
-2. Create a general frontend blueprint (done)
+1. ~Create a general User blueprint & model (done)~
+2. ~Create a general frontend blueprint (done)~
 3. (Python) Connect to a few APIs in manner that will be easy to expand/replicate (almost done, need to see if I can DRY better)
 4. (Python) Sketch out ideas for user/api models and structure of those
 5. (Python) Get basic user profile information from all APIs
@@ -69,3 +69,63 @@ http://x.naveen.com/post/51808692792/a-personal-api
 http://api.fxcardi.com/ and http://fxcardi.com/
 http://www.erikbernacchi.com/
 http://busterbenson.com/
+
+
+## SO Question 
+
+### How can I make this Flask App more DRY (connecting to many oauth APIs)?
+
+I am connecting to several APIs (e.g. Twitter, GitHub, etc.) using `Flask-oauthlib`. Currently, I have each of these services as a separate blueprint. Within the view files for each of the services, there are the same three views: `login`, `authorized`, and `get_token`. The code right now is not very DRY, but I am struggling to understand how to centralize these views (more conceptually).
+
+***How could I make this more DRY? I would like to understand more conceptually rather than someone actually writing the code for me.***
+
+Below are a few items that may be helpful. First is the application structure. Following that is a section of the Twitter API view file.
+
+```
+- App
+    - Services
+        - FourSquare BP
+        - GitHub BP
+        - Twitter BP
+        - ...
+    - Other BPs
+
+```
+
+
+```
+twitter = Blueprint('twitter', __name__, url_prefix='/twitter')
+bp = twitter
+
+bp.api = TwitterAPI()
+bp.oauth = bp.api.oauth_app
+
+@bp.route('/')
+@login_required
+def login():
+    if current_user.get(bp.name, None):
+        return redirect(url_for('frontend.index'))
+    return bp.oauth.authorize(callback=url_for('.authorized', _external=True))
+
+@bp.route('/authorized')
+@bp.oauth.authorized_handler
+def authorized(resp):
+    if resp is None:
+        flash(u'You denied the request to sign in.')
+        return redirect(url_for('frontend.index'))
+        
+    if bp.oauth_type == 'oauth2':
+        resp['access_token'] = (resp['access_token'], '') 
+
+    current_user[bp.name] = resp
+    current_user.save()
+
+    flash('You were signed in to %s' % bp.name.capitalize())
+    return redirect(url_for('frontend.index'))
+
+@bp.oauth.tokengetter
+def get_token(token=None):
+    if bp.oauth_type == 'oauth2':
+        return current_user.get(bp.name, None)['access_token']
+    return current_user.get(bp.name, None)['oauth_token']
+```
