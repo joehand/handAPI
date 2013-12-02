@@ -5,6 +5,8 @@ from ...extensions import oauth
 class TwitterAPI():
     # Setup
     # ----------------------------
+    oauth_type = 'oauth1'
+    
     oauth_app = oauth.remote_app('twitter',
         base_url='https://api.twitter.com/1.1/',
         request_token_url='https://api.twitter.com/oauth/request_token',

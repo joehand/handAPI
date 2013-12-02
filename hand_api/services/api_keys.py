@@ -17,3 +17,8 @@ Github_Key = {
     'key' : '99222755646dcc27b4e0',
     'secret' : '7ce8de9cdf25b3d271b787b5b7a19ec7ad8fcb41'
 }
+
+Foursquare_Key = {
+    'key' : 'WFBKGHILY50R4FTFV3SDHRJ30GWKEQO2KRI3Z1LS0W3RTI3V',
+    'secret' : '1XNNEGPTS3DMYXHMLSCHTR3TLQRF0RFPZLGUZODMWIIX3PSY'
+}

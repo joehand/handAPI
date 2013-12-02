@@ -20,10 +20,11 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Services <b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li class=""><a href="{{url_for('twitter.twitter_login')}}">Twitter</a></li>
-              <li class=""><a href="{{url_for('fitbit.fitbit_login')}}">Fitbit</a></li>
-              <li class=""><a href="{{url_for('readmill.readmill_login')}}">Readmill</a></li>
-              <li class=""><a href="{{url_for('github.github_login')}}">GitHub</a></li>
+              <li class=""><a href="{{url_for('twitter.login')}}">Twitter</a></li>
+              <li class=""><a href="{{url_for('fitbit.login')}}">Fitbit</a></li>
+              <li class=""><a href="{{url_for('readmill.login')}}">Readmill</a></li>
+              <li class=""><a href="{{url_for('github.login')}}">GitHub</a></li>
+              <li class=""><a href="{{url_for('foursquare.login')}}">Foursquare</a></li>
             </ul>
           </li>         
           {% if current_user.is_anonymous() %}

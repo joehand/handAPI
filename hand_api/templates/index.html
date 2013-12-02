@@ -6,8 +6,7 @@
     <div class="container">
         <div class="jumbotron">
             {% if current_user %}
-            <h1>Hello {{current_user.name}}!</h1>
-            <p>{{current_user}}</p>
+            <p>{{current_user.email}}</p>
             {% else %}
             {% endif %}
         </div>

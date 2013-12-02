@@ -12,3 +12,11 @@ user = Blueprint('user', __name__, url_prefix='/user')
 @user.route('/')
 def index():
     return jsonify(user=current_user.to_dict())
+
+
+@user.route('/clear')
+def clear():
+    current_user.github = None
+    current_user.readmill = None
+    current_user.save()
+    return jsonify(user=current_user.to_dict())

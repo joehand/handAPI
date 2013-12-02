@@ -4,6 +4,9 @@ from ...extensions import oauth
 class FitbitAPI():
     # Setup
     # ----------------------------
+
+    oauth_type = 'oauth1'
+
     oauth_app = oauth.remote_app(
         'fitbit',
         base_url='https://api.fitbit.com',

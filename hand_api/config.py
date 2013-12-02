@@ -13,7 +13,7 @@ class Config(object):
     SECRET_KEY = 'this_is_so_secret' #used for development, reset in prod
 
     # Bootstrap Config (https://github.com/mbr/flask-bootstrap#configuration-options)
-    BOOTSTRAP_USE_CDN = True
+    BOOTSTRAP_SERVE_LOCAL = True
     
     # MongoDB Config
     MONGODB_DB = 'hand_api'
@@ -34,6 +34,7 @@ class ProductionConfig(Config):
 class DevelopmentConfig(Config):
 
     DEBUG_TB_INTERCEPT_REDIRECTS = False
+
     DEBUG_TB_PANELS = (
         'flask.ext.debugtoolbar.panels.versions.VersionDebugPanel',
         'flask.ext.debugtoolbar.panels.timer.TimerDebugPanel',
@@ -45,4 +46,5 @@ class DevelopmentConfig(Config):
     )
 
 class TestingConfig(Config):
+    
     TESTING = True

@@ -1,5 +1,5 @@
 # manage.py
-from flask.ext.script import Manager, Shell
+from flask.ext.script import Manager, Shell, Server
 from flask.ext.security import MongoEngineUserDatastore
 
 from hand_api import create_app
@@ -17,11 +17,8 @@ def initdb():
     user_datastore = MongoEngineUserDatastore(db, User, Role)
     user_datastore.create_user(email='joe.a.hand@gmail.com', password='password')
 
-
 def shell_context():
-    return dict(app=app)   
-from flask.ext.script import Manager
-
+    return dict(app=app)
 
 #runs the app
 if __name__ == '__main__':
