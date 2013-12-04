@@ -25,7 +25,7 @@ def authorized(resp):
         flash(u'You denied the request to sign in.')
         return redirect(url_for('frontend.index'))
         
-    if bp.oauth_type == 'oauth2':
+    if bp.api.oauth_type == 'oauth2':
         resp['access_token'] = (resp['access_token'], '') #need to make it a tuple for oauth2 requests
 
     current_user[bp.name] = resp
@@ -36,7 +36,7 @@ def authorized(resp):
 
 @bp.oauth.tokengetter
 def get_token(token=None):
-    if bp.oauth_type == 'oauth2':
+    if bp.api.oauth_type == 'oauth2':
         return current_user.get(bp.name, None)['access_token']
     return current_user.get(bp.name, None)['oauth_token']
 

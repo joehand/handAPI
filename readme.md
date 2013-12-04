@@ -33,7 +33,7 @@ Have a functioning site that connects to a few APIs, store & visualize that info
 
 1. ~~Create a general User blueprint & model~~
 2. ~~Create a general frontend blueprint~~
-3. (Python) Connect to a few APIs in manner that will be easy to expand/replicate (almost done, need to see if I can DRY better)
+3. (Python) Connect to a few APIs in manner that will be easy to expand/replicate (almost done, **need to see if I can DRY better**)
 4. (Python) Sketch out ideas for user/api models and structure of those
 5. (Python) Get basic user profile information from all APIs
 6. (Python) Create initial prototype for 1 API (fitbit) for how to grab, process, and store data (manually)
@@ -70,6 +70,35 @@ http://api.fxcardi.com/ and http://fxcardi.com/
 http://www.erikbernacchi.com/
 http://busterbenson.com/
 
+## API Data - What to store
+
+For each API I will first focus on a specific piece of data. The goal is to make this generalizable. So if you switch tracker or whatever the data is still seamless.
+
+The easiest example is weight:
+
+#### Weight Example
+
+* Started tracking with csv, import that
+* Changed to fitbit tracker, access api to get that
+* Change again, access API
+* etc
+
+Want flexibility in services
+
+### Initial Tables
+
+Each of these data pieces will be a different table, with references to the user. This will enable us to aggregate, if that may be interesting. 
+
+| Table      | API Source |
+|---|---|
+| Weight     | FitBit     |
+| Steps      | FitBit     |
+| Locations  | FourSquare |
+| Commits(?) | GitHub     |
+| Books      | Readmill   |
+| Tweets     | Twitter    |
+
+This will give an initial good start. Then I can try to track other things or connect to other APIs.
 
 ## SO Question 
 

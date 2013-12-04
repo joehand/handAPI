@@ -1,6 +1,7 @@
 from flask import current_app as APP
 
 from ...extensions import db
+from ...user import User
 from .api import TwitterAPI
 
 from datetime import datetime
@@ -8,7 +9,7 @@ from datetime import datetime
 twitterAPI = TwitterAPI()
 
 class Tweets(db.Document):
-    user_ref = db.ReferenceField('User')
+    user_ref = db.ReferenceField(User)
     max_id = db.IntField()
     min_id = db.IntField()
     last_update = db.DateTimeField(default=datetime.utcnow, required=True)
@@ -77,7 +78,7 @@ class Tweets(db.Document):
 
 class Tweet(db.DynamicDocument):
     tweet_id = db.StringField(primary_key=True, required=True)
-    user_ref = db.ReferenceField('User')
+    user_ref = db.ReferenceField(User)
 
     meta = {
         'indexes': ['-tweet_id'],
