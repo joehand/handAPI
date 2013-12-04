@@ -31,8 +31,8 @@ Have a functioning site that connects to a few APIs, store & visualize that info
 
 ### Steps
 
-1. ~Create a general User blueprint & model (done)~
-2. ~Create a general frontend blueprint (done)~
+1. ~~Create a general User blueprint & model~~
+2. ~~Create a general frontend blueprint~~
 3. (Python) Connect to a few APIs in manner that will be easy to expand/replicate (almost done, need to see if I can DRY better)
 4. (Python) Sketch out ideas for user/api models and structure of those
 5. (Python) Get basic user profile information from all APIs
