@@ -5,6 +5,10 @@ from flask.ext.security import login_required, current_user
 
 
 class APILoginView(View):
+    """ Login to the API
+        Checks whether user has token already,
+            otherwise redirects seeks approval then redirects to authorized url
+    """
     decorators = [login_required]
     
     def __init__(self, blueprint):
@@ -16,6 +20,10 @@ class APILoginView(View):
         return self.blueprint.oauth.authorize(callback=url_for('.authorized', _external=True))
 
 class APIAuthorizedView(View):
+    """ Authorized URL
+        Visits in second step of OAuth Handshake
+        Save access token here
+    """
     decorators = [login_required]
 
     def __init__(self, blueprint):
@@ -35,12 +43,30 @@ class APIAuthorizedView(View):
         flash('You were signed in to %s' % self.blueprint.name.capitalize())
         return redirect(url_for('frontend.index'))
 
+class APIToken():
+    """ Class for OAuthLib to get token
+    """
+    def __init__(self, blueprint):
+        self.blueprint = blueprint
+
+    def get_token(self, token=None):
+        if self.blueprint.api.oauth_type == 'oauth2':
+            return current_user.get(self.blueprint.name, None)['access_token']
+        return current_user.get(self.blueprint.name, None)['oauth_token']
+
 def registerAPIViews(blueprint):
+    """Register all the necessary default API views
+
+       Some views need decorators for OAuthLib
+    """
     login_view = APILoginView.as_view('login', blueprint=blueprint)
     auth_view = blueprint.oauth.authorized_handler(
                         APIAuthorizedView.as_view('authorized', blueprint=blueprint))
 
     blueprint.add_url_rule('/', view_func=login_view)
     blueprint.add_url_rule('/authorized', view_func=auth_view)
+
+    apiToken = APIToken(blueprint)
+    token_getter = blueprint.oauth.tokengetter(apiToken.get_token)
 
     return blueprint
