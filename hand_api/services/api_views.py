@@ -15,7 +15,7 @@ class APILoginView(View):
         self.blueprint = blueprint
 
     def dispatch_request(self):
-        if current_user.get(self.blueprint.name, None):
+        if self.blueprint.name in current_user.get('services'):
             return redirect(url_for('frontend.index'))
         return self.blueprint.oauth.authorize(callback=url_for('.authorized', _external=True))
 
@@ -37,7 +37,7 @@ class APIAuthorizedView(View):
         if self.blueprint.api.oauth_type == 'oauth2':
             resp['access_token'] = (resp['access_token'], '') #need to make it a tuple for oauth2 requests
 
-        current_user[self.blueprint.name] = resp
+        current_user['services'][self.blueprint.name] = resp
         current_user.save()
 
         flash('You were signed in to %s' % self.blueprint.name.capitalize())
@@ -51,8 +51,8 @@ class APIToken():
 
     def get_token(self, token=None):
         if self.blueprint.api.oauth_type == 'oauth2':
-            return current_user.get(self.blueprint.name, None)['access_token']
-        return current_user.get(self.blueprint.name, None)['oauth_token']
+            return current_user.get('services')[self.blueprint.name]['access_token']
+        return current_user.get('services')[self.blueprint.name]['oauth_token']
 
 def registerAPIViews(blueprint):
     """Register all the necessary default API views

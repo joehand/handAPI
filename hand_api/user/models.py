@@ -14,14 +14,7 @@ class User(db.DynamicDocument, UserMixin):
     active = db.BooleanField(default=True)
     confirmed_at = db.DateTimeField()
     roles = db.ListField(db.ReferenceField(Role), default=[])
-
     services = db.DictField()
-    
-    twitter = db.DictField()
-    readmill = db.DictField()
-    github= db.DictField()
-    fitbit = db.DictField()
-    foursquare = db.DictField()
 
     def to_dict(self):
         return mongo_to_dict(self)
