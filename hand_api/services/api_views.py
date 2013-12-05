@@ -4,14 +4,13 @@ from flask.views import View
 from flask.ext.security import login_required, current_user
 
 
-class APIRootView(View):
+class APILoginView(View):
     decorators = [login_required]
     
     def __init__(self, blueprint):
         self.blueprint = blueprint
 
     def dispatch_request(self):
-        print self.blueprint.name
         if current_user.get(self.blueprint.name, None):
             return redirect(url_for('frontend.index'))
         return self.blueprint.oauth.authorize(callback=url_for('.authorized', _external=True))
@@ -23,7 +22,6 @@ class APIAuthorizedView(View):
         self.blueprint = blueprint
 
     def dispatch_request(self, resp):
-        print self.blueprint.name
         if resp is None:
             flash(u'You denied the request to sign in.')
             return redirect(url_for('frontend.index'))
@@ -38,11 +36,11 @@ class APIAuthorizedView(View):
         return redirect(url_for('frontend.index'))
 
 def registerAPIViews(blueprint):
-    root_view = APIRootView.as_view('login', blueprint=blueprint)
-    blueprint.add_url_rule('/', view_func=root_view)
-
+    login_view = APILoginView.as_view('login', blueprint=blueprint)
     auth_view = blueprint.oauth.authorized_handler(
                         APIAuthorizedView.as_view('authorized', blueprint=blueprint))
+
+    blueprint.add_url_rule('/', view_func=login_view)
     blueprint.add_url_rule('/authorized', view_func=auth_view)
 
     return blueprint
