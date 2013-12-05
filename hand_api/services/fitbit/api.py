@@ -6,6 +6,7 @@ class FitbitAPI():
     # ----------------------------
 
     oauth_type = 'oauth1'
+    api_version = '1' #Current FitBit API Version
 
     oauth_app = oauth.remote_app(
         'fitbit',
