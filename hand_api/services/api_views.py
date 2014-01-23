@@ -16,6 +16,8 @@ class APILoginView(View):
 
     def dispatch_request(self):
         if self.blueprint.name in current_user.get('services'):
+            print('going here')
+            flash('Already signed in to %s' % self.blueprint.name.capitalize())
             return redirect(url_for('frontend.index'))
         return self.blueprint.oauth.authorize(callback=url_for('.authorized', _external=True))
 

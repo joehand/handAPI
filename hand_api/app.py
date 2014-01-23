@@ -3,12 +3,12 @@ import os
 
 from flask import Flask, render_template
 from flask.ext.security import MongoEngineUserDatastore
-from flask.ext.bootstrap import Bootstrap
 
 from .config import Config, DevelopmentConfig
 
 from .user import user, User, Role
 from .frontend import frontend
+from .writer import writer
 from .services import twitter, fitbit, github, readmill, foursquare
 
 from .extensions import db, mail, security
@@ -24,6 +24,7 @@ DEFAULT_BLUEPRINTS = (
     github,
     readmill,
     foursquare,
+    writer,
     #admin,
 )
 
@@ -65,9 +66,6 @@ def configure_extensions(app):
 
     # flask-mail
     mail.init_app(app)
-
-    # flask-bootstrap
-    Bootstrap(app)
 
     # Setup Flask-Security
     user_datastore = MongoEngineUserDatastore(db, User, Role)

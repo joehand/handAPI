@@ -14,11 +14,10 @@ bp.oauth = bp.api.oauth_app
 
 registerAPIViews(bp)
 
-@readmill.route('/books')
+@bp.route('/user')
 @login_required
-def books():
-    if current_user.get('readmill', None):
-        user_id = str(current_user.get('readmill')['id'])
-        books = readmill.api.get('users/%s/readings' % user_id)
-        return jsonify(books.data)
-    return readmill.api.authorize(callback=url_for('.authorized', _external=True))
+def user():
+    if bp.name in current_user.get('services'):
+        resp = bp.oauth.get('me')
+        return jsonify(resp.data)
+    return redirect(url_for('.login'))

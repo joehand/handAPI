@@ -13,3 +13,12 @@ bp.api = TwitterAPI()
 bp.oauth = bp.api.oauth_app
 
 registerAPIViews(bp)
+
+@bp.route('/user')
+@login_required
+def user():
+    if bp.name in current_user.get('services'):
+        data = {'user_id': current_user.get('services')[bp.name]['user_id']}
+        resp = bp.oauth.get('users/show.json', data=data)
+        return jsonify(resp.data)
+    return redirect(url_for('.login'))

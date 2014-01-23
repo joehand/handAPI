@@ -16,8 +16,6 @@ def index():
 
 @user.route('/clear')
 def clear():
-    current_user.github = None
-    current_user.readmill = None
-    current_user.fitbit = None
+    current_user.services = None
     current_user.save()
     return jsonify(user=current_user.to_dict())

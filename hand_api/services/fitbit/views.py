@@ -15,15 +15,15 @@ bp.oauth = bp.api.oauth_app
 registerAPIViews(bp)
 
 @bp.route('/user')
+@login_required
 def get_user():
     """ Get user info from FitbitAPI
         https://wiki.fitbit.com/display/API/API-Get-User-Info
         GET /<api-version>/user/<user-id>/profile.<response-format>
     """
-    user_id = str(current_user.get('services')[bp.name]['encoded_user_id'])
-    user = bp.oauth.request('/%s/user/%s/profile.json' % (bp.api.api_version, user_id))
+    resp = bp.oauth.request('/%s/user/-/profile.json' % bp.api.api_version)
     # TODO: this isn't sending the oauth token so we are not getting real user info
-    if user.status == 200:
-        return jsonify(user.data)
+    if resp.status == 200:
+        return jsonify(resp.data)
     else:
-        return user.data
+        return jsonify(resp.data)
