@@ -1,5 +1,12 @@
 from .extensions import db
 
+from datetime import datetime
+
+def validate_date(date_text):
+    try:
+        return datetime.strptime(date_text, '%d-%b-%Y')
+    except ValueError:
+        raise ValueError("Incorrect data format")
 
 def mongo_to_dict(obj):
     return_data = []

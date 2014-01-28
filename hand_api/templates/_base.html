@@ -8,8 +8,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <link rel="stylesheet" href="{{url_for('static', filename='css/normalize.css')}}">
         <link rel="stylesheet" href="{{url_for('static', filename='css/main.css')}}">
+        {%- block additional_css %}{% endblock -%}
+        {%- block header_js %}{% endblock -%}
     </head>
-    <body>
+    <body class="{% block body_class %}{% endblock %}">
 
     {%- block navbar %}
         <nav class="">
@@ -43,15 +45,26 @@
             {% endwith %}
             {% block content %}
             {% endblock content %} 
-            <hr>
             {% block footer %}
+            <hr>
             <footer>
                 <p>&copy; Hand 2013</p>
             </footer>
             {% endblock footer %}
         </div> <!-- /container -->
     {% endblock -%}
-        
+
+    {%- block user_js %}
+        <script>
+            {%- if current_user.is_authenticated() -%}
+            var currentUser = '{{current_user.id}}';
+            {%- else -%}
+            var currentUser = false;
+            {%- endif -%}
+        </script>
+    {% endblock -%}
+    
+    {%- block footer_js %}{% endblock -%}
     </body>
 </html>
 
