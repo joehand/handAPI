@@ -1,11 +1,11 @@
-from flask import (Blueprint, render_template, flash, jsonify,
+from flask import (Blueprint, render_template, flash, jsonify, abort,
                     request, redirect, url_for)
 from flask.ext.security import current_user
 from flask.ext.classy import FlaskView, route
 
 
 from ..utils import validate_date
-from models import Post
+from models import Post, DailyPost, BlogPost
 
 import json
 from datetime import date
@@ -21,45 +21,40 @@ class PostView(FlaskView):
 
     @route('/', endpoint='index')
     def index(self):
-        """ Our main index view
-        """
+        """ Our main index view """
         posts = Post.objects(user_ref=current_user.id)
         return render_template('writer/index.html', posts=posts)
 
     @route('/today')
-    @route('/<post_date>', endpoint='post')
-    def get(self, post_date=None):
+    @route('/<post_url>', endpoint='post')
+    def get(self, post_url=None):
         """ View for a single post
         """
         today = date.today().strftime('%d-%b-%Y')
-
-        if not post_date:
-            post_date = today
+        is_today = True if post_url == today else False
 
         if 'today' in request.path:
-            return redirect(url_for('.post', post_date=today))
+            return redirect(url_for('.post', post_url=today))
 
-        try:
-            validated_date = validate_date(post_date).strftime('%d-%b-%Y')
-        except:
-            flash('Please enter a real date')
-            return redirect(url_for('.post', post_date=today))
-
-        if validated_date != post_date:
-            return redirect(url_for('.post', post_date=validated_date))
-
-        post = Post.objects(date=post_date).first()
-
-        is_today = True if post_date == today else False
+        post = Post.objects(user_ref=current_user.id, url=post_url).first()
 
         if post is None:
+            try:
+                validated_date = validate_date(post_url).strftime('%d-%b-%Y')
+            except:
+                flash('No post found')
+                return redirect(url_for('.post', post_url=today))
+
+            if validated_date != post_url:
+                return redirect(url_for('.post', post_url=validated_date))
+
             if is_today:
                 # create a new post for today
-                post = Post(user_ref=current_user.id)
+                post = DailyPost(user_ref=current_user.id, url=today, kind='Daily')
                 post.save()
             else:
-                flash('No post for that date')
-                return redirect(url_for('.post', post_date=today))
+                flash('No post found')
+                return redirect(url_for('.post', post_url=today))
 
         return render_template('writer/write.html', post=post, is_today=is_today)
 

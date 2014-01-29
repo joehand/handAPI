@@ -15,7 +15,7 @@
 {% block content %}      
         <section class="writr" data-postid="{{post.id}}" data-userid="{{post.user_ref.id}}">
             <header class="header">
-                {{post.date|replace('-',' ')}}
+                {{post.date.strftime('%d-%b-%Y')|replace('-',' ')}}
             </header>
 
             <article {% if is_today %}contenteditable="true"{% endif %} class="content">
@@ -23,26 +23,18 @@
             </article>
 
             <div class="ui">
+                <div class="wrapper">
+                    <div class="top editing">
+                        <button class="fullscreen useicons" title="Toggle fullscreen">
+                            &#xe000;
+                        </button>
 
-            <div class="wrapper">
-
-                <div class="top editing">
-                    <button class="fullscreen useicons" title="Toggle fullscreen">
-                        &#xe000;
-                    </button>
-                    
-                    <button class="save useicons" title="Save Text">
-                        &#xe003;
-                    </button>
-                </div>
-
-                <div class="bottom">
-                    <button class="about">
-                        ?
-                    </button>
+                        <button class="save useicons" title="Save Text">
+                            &#xe003;
+                        </button>
+                    </div>
                 </div>
             </div>
-        </div>
         </section>
 {% endblock %}
 

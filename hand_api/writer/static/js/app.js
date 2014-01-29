@@ -6,6 +6,7 @@ requirejs.config({
         'underscore'         : 'libs/underscore',
         'backbone'           : 'libs/backbone',
         'backbone_dual'      : 'libs/backbone.dualstorage.amd',
+        'grande'             : 'libs/grande',
     },
     shim: {
         backbone: {
@@ -17,6 +18,9 @@ requirejs.config({
         },
         underscore: {
             exports: '_'
+        },
+        grande: {
+            exports: 'grande'
         }
     }
 });

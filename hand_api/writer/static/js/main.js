@@ -1,5 +1,5 @@
 /*! =======================================================================
- * Main JS File for DataNews
+ * Main JS File for Writr
  * Author: JoeHand
  * ======================================================================== */
 define([
@@ -18,7 +18,7 @@ define([
 
     var AppModel = Backbone.Model.extend({});
 
-    writrModel = new AppModel({'app_offline':false});
+    writrModel = new AppModel({'app_offline':false, 'content_dirty':false});
 
     writrCol = new WritrCol([{
                                      user_id : userId,
